@@ -1,0 +1,10 @@
+.DS_Store
+*.log
+*.tmp
+*.swp
+*.old
+*.bkp
+tmux/plugins
+tmux/resurrect/*
+zsh/.aliases.local
+zsh/env_variables.zsh

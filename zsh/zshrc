@@ -1,0 +1,114 @@
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+autoload -U compinit
+compinit
+
+# zplug
+source $ZPLUG_HOME/init.zsh
+zplug "zsh-users/zsh-autosuggestions"
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
+zplug load
+
+# nvm
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# auto-switch node version
+autoload -U add-zsh-hook
+load-nvmrc() {
+    local node_version="$(nvm version)"
+    local nvmrc_path="$(nvm_find_nvmrc)"
+
+    if [ -n "$nvmrc_path" ]; then
+      local nvmrc_node_version=$(nvm version "$(cat "${nvmrc_path}")")
+
+      if [ "$nvmrc_node_version" = "N/A" ]; then
+        nvm install
+      elif [ "$nvmrc_node_version" != "$node_version" ]; then
+        nvm use
+      fi
+    elif [ "$node_version" != "$(nvm version default)" ]; then
+      echo "Reverting to nvm default version"
+      nvm use default
+    fi
+}
+add-zsh-hook chpwd load-nvmrc
+load-nvmrc
+
+# fzf
+eval "$(fzf --zsh)"
+
+# starship prompt
+eval "$(starship init zsh)"
+
+# zoxide
+eval "$(zoxide init zsh)"
+
+# 1password completions
+eval "$(op completion zsh)"; compdef _op op
+
+# edit command in editor
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
+# Aliases
+alias bs="git bselect"
+alias reload!="source ~/.zshrc"
+alias st="git st"
+alias ls="lsd"
+alias ll="lsd -a --color=always --long --git --size=short --icon=always"
+alias vim="nvim"
+alias v="nvim"
+alias ip="curl ifconfig.me"
+alias genpass="openssl rand -base64 20"
+alias path="echo $PATH | tr -s ':' '\n'"
+alias lazydocker="upscope lazydocker"
+alias gcs="gh copilot suggest"
+
+# Functions
+function take {
+  mkdir $1
+  cd $1
+}
+
+function branch_clean() {
+  git checkout master && git branch --merged | grep -v master | xargs git branch -d
+}
+
+# Docker helpers
+docker_rmi() {
+    local image
+    image=$(docker images | awk '(NR>1) { print $1 " " $3; }' | fzf-tmux -p) \
+    && docker rmi $(cut -d' ' -f2 <<< "$image") --force
+}
+
+docker_attach() {
+    local container
+    container=$(docker ps | awk 'NR>1 { print $1 " " $NF; }' | fzf-tmux -p) \
+    && docker attach $(cut -d' ' -f1 <<< "$container")
+}
+
+docker_stop() {
+    local container
+    container=$(docker ps | awk 'NR>1 { print $1 " " $NF; }' | fzf-tmux -p) \
+    && docker stop $(cut -d' ' -f1 <<< "$container")
+}
+
+# Upscope helpers
+function _ur() {
+   local service;
+   service="$(yq '.services | keys' $UPSCOPE_DIR/docker-compose.yaml | sed 's/- //' | fzf-tmux --prompt 'Select a service to restart: ')"
+   upscope restart -c $service
+}
+
+function _ul() {
+  local service;
+  service="$(yq '.services | keys' $UPSCOPE_DIR/docker-compose.yaml | sed 's/- //' | fzf-tmux --prompt 'Select a service to see the logs: ')"
+  upscope logs -c $service
+}
