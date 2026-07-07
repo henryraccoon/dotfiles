@@ -18,20 +18,24 @@ Dotfiles must be set up first (see [SETUP.md](SETUP.md)) — zshenv exports `UPS
 
 ```bash
 mkdir ~/upscope-env && cd ~/upscope-env
-git clone git@github.com:upscopeio/upscope-cli.git
 git clone git@github.com:upscopeio/upscope.git userview
-cd upscope-cli && make    # builds the binary; check its README for the exact target
+gh auth login   # upscope-cli repo is private; the installer downloads through gh
+s=$(gh api -H "Accept: application/vnd.github.raw" repos/upscopeio/upscope-cli/contents/scripts/install.sh) && printf '%s\n' "$s" | sh
 ```
+
+The installer drops the prebuilt binary into `$UPSCOPE_DIR/bin`. It self-updates: `upscope upgrade` (and a daily auto-check prompts when a new release exists). Building from source (`git clone git@github.com:upscopeio/upscope-cli.git && cd upscope-cli && make install`, Go 1.24+) is only needed for CLI development.
 
 Then, in order:
 
 ```bash
-upscope machine setup    # provisions the DigitalOcean docker machine (recreates dev.toml credentials)
-upscope hosts            # /etc/hosts entries for uv
+upscope machine setup    # provisions the DO machine, creates the docker network,
+                         # syncs every project, and runs nginx sync (recreates dev.toml credentials)
+upscope hosts apply      # add uv hostnames to /etc/hosts (re-runs under sudo)
 upscope deps             # runs the dependency install steps (yarn installs etc.)
-upscope machine sync     # mutagen-syncs projects to the machine
 upscope up               # docker compose up -d for every configured project
 ```
+
+`upscope machine sync` is only needed later (e.g. after `upscope machine repair` on another computer reclaims sync ownership) — `machine setup` already syncs everything.
 
 `upscope docs` opens the full HTML documentation for the CLI and configured projects — source of truth when this file drifts.
 
