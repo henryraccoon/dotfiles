@@ -15,10 +15,13 @@ My personal dotfiles.
 
 ## Setup
 
+Full clean-machine walkthrough: [docs/SETUP.md](docs/SETUP.md).
+Upscope dev environment: [docs/UPSCOPE_ENV.md](docs/UPSCOPE_ENV.md).
+
 ```bash
 git clone https://github.com/henryraccoon/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 brew bundle --file=homebrew/Brewfile
 ```
 
-Then symlink configs to their expected locations.
+Then symlink configs to their expected locations (see docs/SETUP.md).

@@ -1,7 +1,7 @@
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-autoload -U compinit
-compinit
+# force emacs keymap ($EDITOR=nvim would otherwise auto-enable vi mode)
+bindkey -e
 
 # zplug
 source $ZPLUG_HOME/init.zsh
@@ -13,6 +13,9 @@ if ! zplug check --verbose; then
   fi
 fi
 zplug load
+
+autoload -U compinit
+compinit
 
 # nvm
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -49,8 +52,6 @@ eval "$(starship init zsh)"
 # zoxide
 eval "$(zoxide init zsh)"
 
-# 1password completions
-eval "$(op completion zsh)"; compdef _op op
 
 # edit command in editor
 autoload -z edit-command-line
@@ -67,7 +68,7 @@ alias vim="nvim"
 alias v="nvim"
 alias ip="curl ifconfig.me"
 alias genpass="openssl rand -base64 20"
-alias path="echo $PATH | tr -s ':' '\n'"
+alias path='echo $PATH | tr -s ":" "\n"'
 alias lazydocker="upscope lazydocker"
 alias gcs="gh copilot suggest"
 
@@ -101,14 +102,47 @@ docker_stop() {
 }
 
 # Upscope helpers
-function _ur() {
-   local service;
-   service="$(yq '.services | keys' $UPSCOPE_DIR/docker-compose.yaml | sed 's/- //' | fzf-tmux --prompt 'Select a service to restart: ')"
-   upscope restart -c $service
+local container_list=("api" "api-worker" "app-frontend" "browserless" "data" "idp" "integrations_acme" "js" "mailcatcher" "mongodb" "nginx" "phone" "postgres" "redis" "todomvc" "viewer")
+local products=("uv")
+
+function ul() {
+   local selected_product=$(printf "%s\n" "${products[@]}" | fzf)
+   local selected_container=$(printf "%s\n" "${container_list[@]}" | fzf)
+   upscope "$selected_product" docker:"$selected_container" logs -f
 }
 
-function _ul() {
-  local service;
-  service="$(yq '.services | keys' $UPSCOPE_DIR/docker-compose.yaml | sed 's/- //' | fzf-tmux --prompt 'Select a service to see the logs: ')"
-  upscope logs -c $service
+function ur() {
+   local selected_product=$(printf "%s\n" "${products[@]}" | fzf)
+   local selected_container=$(printf "%s\n" "${container_list[@]}" | fzf)
+   upscope "$selected_product" docker:"$selected_container" restart
+}
+
+function ub() {
+   upscope uv build cobrowsing
+}
+
+function uc() {
+   upscope machine sync
+}
+
+function ue() {
+   local selected_product=$(printf "%s\n" "${products[@]}" | fzf)
+   local selected_container=$(printf "%s\n" "${container_list[@]}" | fzf)
+   upscope "$selected_product" exec "$selected_container" sh
+}
+
+function us() {
+  mutagen sync terminate --all
+  sleep 2
+  upscope machine sync
+}
+
+function ut() {
+    local selected_product=$(printf "%s\n" "${products[@]}" | fzf)
+    upscope "$selected_product" build types
+}
+
+function ud() {
+  local selected_product=$(printf "%s\n" "${products[@]}" | fzf)
+  upscope "$selected_product" db reset
 }

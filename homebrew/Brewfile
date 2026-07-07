@@ -24,6 +24,8 @@ brew "neovim"
 brew "pandoc"
 brew "postgresql@14", restart_service: :changed
 brew "ripgrep"
+brew "starship"
+brew "terminal-notifier"
 brew "tlrc"
 brew "tmate"
 brew "tmux"

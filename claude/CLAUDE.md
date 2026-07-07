@@ -2,6 +2,11 @@
 
 - Never just assume, always try to doublecheck things.
 
+- NEVER edit files unless I explicitly ask. Default to answering questions and proposing diffs
+  only.
+
+- NEVER write comments in code, unless it's ignore lint comments or if absolutely necessary.
+
 - ALWAYS PRIORITIZE CLEAN CODE
 
 - THE CODE NEEDS TO BE SECURE AND WILL BE EVALUATED BY PEN TESTERS. ANYTHING THAT IS INSECURE WILL PENALIZE YOU. DO NOT ADD USELESS SECURITY CHECKS, THOUGH; EVERYTHING NEEDS TO BE THOUGHTFUL.
