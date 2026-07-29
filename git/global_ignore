@@ -4,3 +4,5 @@
 .env
 .venv
 dev_notes.txt
+
+**/.claude/settings.local.json

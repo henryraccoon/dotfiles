@@ -146,3 +146,10 @@ function ud() {
   local selected_product=$(printf "%s\n" "${products[@]}" | fzf)
   upscope "$selected_product" db reset
 }
+
+# bun completions
+[ -s "/Users/henryhennadiy/.bun/_bun" ] && source "/Users/henryhennadiy/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
