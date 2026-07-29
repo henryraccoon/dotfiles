@@ -40,6 +40,12 @@
 
 - IN ANY UNCLEAR SITUATION ASK ME FIRST.
 
+## Upscope Dev Environment
+
+- In any repo under `~/upscope-env/`, read [~/.claude/docs/upscope-dev-environment.md](~/.claude/docs/upscope-dev-environment.md) before running anything.
+- Nothing runs locally: containers live on a DigitalOcean droplet; the local checkout is a Mutagen-synced replica. Run/test/db/console commands ONLY via the `upscope` CLI (e.g. `upscope db migrate`, `upscope uv test api`) — never bare `yarn`/`docker`/`psql` expecting local containers.
+- `~/upscope-env/dev.toml` = secrets. Never read, print, or commit it.
+
 ## Github
 
 - Your primary method for interacting with Github should be the Github CLI.
@@ -101,6 +107,7 @@ Reference docs for detailed guidance:
 - [Commit Approval Guidelines](~/.claude/docs/commit-approval-guidelines.md) - Detailed workflow options
 - [Conciseness Clarification](~/.claude/docs/conciseness-clarification.md) - Domain-specific conciseness rules
 - [Exploration Mode](~/.claude/skills/exploration/SKILL.md) - Debugging and prototyping workflow
+- [Upscope Dev Environment](~/.claude/docs/upscope-dev-environment.md) - Remote droplet setup + `upscope` CLI command tree
 
 **Quick reference:**
 

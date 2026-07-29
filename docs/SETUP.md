@@ -47,6 +47,7 @@ ln -s ~/.dotfiles/claude/CLAUDE.md ~/.claude/CLAUDE.md
 ln -s ~/.dotfiles/claude/agents ~/.claude/agents
 ln -s ~/.dotfiles/claude/skills ~/.claude/skills
 ln -s ~/.dotfiles/claude/docs ~/.claude/docs
+ln -s ~/.dotfiles/claude/commands ~/.claude/commands
 ```
 
 `~/.dotfiles/scripts` (tmux-sessionizer, tmux-cht) is already on `$PATH` via zshenv — no linking needed.
