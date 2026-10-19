@@ -1,5 +1,4 @@
 # Taps
-tap "anomalyco/tap"
 tap "mhaeuser/mhaeuser"
 tap "mutagen-io/mutagen"
 
@@ -33,7 +32,6 @@ brew "yq"
 brew "zoxide"
 brew "zplug"
 brew "zsh-syntax-highlighting"
-brew "anomalyco/tap/opencode"
 brew "mutagen-io/mutagen/mutagen"
 
 # GUI Apps

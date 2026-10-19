@@ -62,6 +62,15 @@ install_homebrew() {
   [[ -x "$BREW_PREFIX/bin/brew" ]] && eval "$("$BREW_PREFIX/bin/brew" shellenv)"
 }
 
+trust_taps() {
+  local taps
+  taps=$(sed -n 's/^tap "\(.*\)"$/\1/p' "$BREWFILE")
+  [[ -n "$taps" ]] || return
+  log "trusting third-party taps"
+  # shellcheck disable=SC2086
+  run brew trust --tap $taps
+}
+
 install_packages() {
   log "brew bundle ($BREWFILE)"
   run brew bundle install --file="$BREWFILE"
@@ -141,6 +150,7 @@ configure_iterm() {
 main() {
   install_xcode_clt
   install_homebrew
+  trust_taps
   install_packages
   link_configs
   install_node
