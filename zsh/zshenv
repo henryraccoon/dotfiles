@@ -8,8 +8,7 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export CLICOLOR=1
 export HISTTIMEFORMAT="%d/%m/%y %T"
-export EDITOR=nvim
-export BUNDLER_EDITOR=$EDITOR
+export EDITOR=vim
 export VISUAL_EDITOR=$EDITOR
 export NODE_OPTIONS="--max-old-space-size=5120"
 export UPSCOPE_DIR="$HOME/upscope-env"
@@ -26,11 +25,6 @@ export GOROOT=/opt/homebrew/opt/go/libexec
 export GOBIN=$GOPATH/bin
 export PATH=$PATH:$GOPATH/bin
 export PATH=$PATH:$GOROOT/bin
-
-# Add RVM to PATH for scripting
-export PATH="$PATH:$HOME/.rvm/bin"
-export PATH="$HOME/.gem/bin:$PATH"
-export GEM_HOME=$HOME/.gem
 
 export NVM_DIR="$HOME/.nvm"
 

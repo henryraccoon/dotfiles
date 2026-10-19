@@ -1,6 +1,6 @@
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# force emacs keymap ($EDITOR=nvim would otherwise auto-enable vi mode)
+# force emacs keymap
 bindkey -e
 
 # zplug
@@ -17,9 +17,10 @@ zplug load
 autoload -U compinit
 compinit
 
-# nvm
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# nvm (homebrew install, or the official script's ~/.nvm)
+for nvm_sh in /opt/homebrew/opt/nvm/nvm.sh "$NVM_DIR/nvm.sh"; do
+  [ -s "$nvm_sh" ] && { source "$nvm_sh"; break; }
+done
 
 # auto-switch node version
 autoload -U add-zsh-hook
@@ -64,8 +65,6 @@ alias reload!="source ~/.zshrc"
 alias st="git st"
 alias ls="lsd"
 alias ll="lsd -a --color=always --long --git --size=short --icon=always"
-alias vim="nvim"
-alias v="nvim"
 alias ip="curl ifconfig.me"
 alias genpass="openssl rand -base64 20"
 alias path='echo $PATH | tr -s ":" "\n"'
@@ -148,7 +147,7 @@ function ud() {
 }
 
 # bun completions
-[ -s "/Users/henryhennadiy/.bun/_bun" ] && source "/Users/henryhennadiy/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
