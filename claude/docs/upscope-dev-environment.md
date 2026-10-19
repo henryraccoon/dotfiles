@@ -56,4 +56,4 @@ Global:
 | `upscope uv build cobrowsing` / `types` / `onpremise` | rebuild bundles / api types / on-prem image |
 | `upscope uv yarn api` / `app-frontend` / `cobrowsing sdk\|viewer\|server` | reinstall deps in containers + restart |
 
-App hostnames (`app.upscope.local`, `api.upscope.local`, …) are routed via `/etc/hosts` + the droplet's nginx — managed by `upscope hosts` / `upscope machine nginx`, not hand-edited.
+App hostnames (`app.upscope.local`, `api.upscope.local`, …) are routed via `/etc/hosts` + the droplet's nginx — managed by `upscope machine sync-hosts` / `upscope machine nginx`, not hand-edited.

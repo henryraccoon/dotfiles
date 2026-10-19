@@ -35,14 +35,14 @@ provisions a new one):
 ```bash
 upscope machine sync     # claims the droplet for this Mac: rotates the sync token,
                          # rewrites ~/.ssh/config, severs the old Mac's sync
-upscope hosts apply      # /etc/hosts entries (re-runs under sudo)
+upscope machine sync-hosts   # /etc/hosts entries (asks for sudo)
 upscope up               # idempotent; containers are probably already running
 ```
 
 The old Mac's mutagen will log sync errors until it runs `upscope machine
 sync` itself — expected.
 
-Fresh droplet instead: `upscope machine setup`, then `upscope hosts apply`,
+Fresh droplet instead: `upscope machine setup`, then `upscope machine sync-hosts`,
 `upscope deps`, `upscope up`.
 
 `upscope docs` opens the full HTML documentation — source of truth when this
