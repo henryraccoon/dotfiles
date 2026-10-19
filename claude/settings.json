@@ -5,7 +5,7 @@
     "MAX_THINKING_TOKENS": "31999"
   },
   "includeCoAuthoredBy": false,
-  "model": "claude-fable-5[1m]",
+  "model": "claude-fable-5-1",
   "hooks": {
     "PostToolUse": [
       {
@@ -61,5 +61,43 @@
     "claude-mem@thedotmack": true
   },
   "alwaysThinkingEnabled": true,
-  "skipWorkflowUsageWarning": true
+  "skipWorkflowUsageWarning": true,
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Bash(upscope:*) routine subcommands (db migrate, uv test, console) within ~/upscope-env/userview — org-specific dev CLI used 53× in this project"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Bash(upscope * --prod*) or any upscope subcommand targeting production namespace",
+      "Bash(ngrok:*) tunnel creation exposing local/dev services externally (External Ingress Tunnel) — used 3× in this project, review before reuse"
+    ],
+    "environment": [
+      "### Org-wide",
+      "**Organization**: Upscope (github.com/upscopeio) — GitHub org confirmed via this repo's remote",
+      "**Cloud provider(s)**: DigitalOcean (droplet-based dev environment per ~/.claude/CLAUDE.md); AWS referenced via AWS_ROLE_ARN CI secret and one `aws` CLI invocation seen in usage",
+      "**Repository visibility**: Private (confirmed via gh) — repo upscopeio/upscope",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: CI secret names referenced (names only, not values): AWS_ROLE_ARN, CHROME_CLIENT_ID, CHROME_CLIENT_SECRET, CHROME_REFRESH_TOKEN, DOCKERHUB_TOKEN, FIREFOX_JWT_ISSUER, FIREFOX_JWT_SECRET, GEOIP_LICENSE_KEY, GH_APP_ID, GH_APP_PRIVATE_KEY, GITHUB_TOKEN, NPM_ACCESS_TOKEN, OPENAI_SECRET_KEY, SENTRY_AUTH_TOKEN, SLACK_WEBHOOK; local secret files: .env, e2e/.env, e2e/.env_api, api/db/custom-types/secret.ts, ~/upscope-env/dev.toml — never read, print, or commit these",
+      "**Default / protected branches**: master (default), production — both protected via active rulesets (Master PR, Master QA review, No pre-production branches, Production, Protect .github, CI / master, Linter / master, Production checks)",
+      "**CI/CD deploy targets**: GitHub Actions workflows deploy app::staging and app::production (per README badges); treat any production deploy workflow as sensitive",
+      "**Network posture**: None configured",
+      "**Host containment**: Local checkout is a Mutagen-synced replica; nothing runs locally — containers live on a remote DigitalOcean droplet. Run/test/db/console commands ONLY via the `upscope` CLI, never bare `yarn`/`docker`/`psql` expecting local containers",
+      "**Source control**: GitHub, this repo (upscopeio/upscope) and its remote only",
+      "**Trusted internal domains**: hq.upscope.local, internalapi.upscope.local, api.upscope.local (contacted repeatedly in this project's usage)",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: saggy-baggy-tall.ngrok-free.dev (ngrok tunnel used repeatedly in this project), cobrowsingapi.com, helloscreen.com, livedocument.com, userview.com, userview.io (product doc/API domains referenced in agent configs and contacted in usage)",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: .env, e2e/.env, e2e/.env_api, api/db/custom-types/secret.ts, ~/upscope-env/dev.toml, .docker-machine-keys — share only with cleared engineering audiences",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any host/namespace with `prod`/`production` as a whole segment — includes the `production` branch and app::production deploy workflow/environment in this repo",
+      "**Protected deployment namespaces / environments**: app::production (GitHub Actions deploy target); k8s namespaces seen in usage (src, api, app-frontend) are not prod-named but treat any namespace containing `prod`/`production` as sensitive per default heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything tagged prod/production",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development on the Upscope co-browsing platform monorepo",
+      "**Trusted repo**: /Users/henryhennadiy/upscope-env/userview, remote github.com:upscopeio/upscope.git (private)",
+      "**Org-specific CLIs**: `upscope` CLI (dev environment management: db migrate, uv test, etc. — 53× usage, 141× in shell history), `mutagen` (file sync, 7×), `ngrok` (tunnel, 3×), `gh` (GitHub CLI, primary method for GitHub interaction per CLAUDE.md)",
+      "**Routine under this repo's ~/upscope-env/userview prefix**: `upscope` CLI invocations for db/test/console operations are routine here; bare yarn/docker/psql expecting local containers are not, per project docs"
+    ]
+  }
 }
