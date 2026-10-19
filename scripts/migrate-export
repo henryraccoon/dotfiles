@@ -14,6 +14,8 @@ paths=(
   .claude-mem
   .claude/settings.local.json
   upscope-env/dev.toml
+  upscope-env/userview/.env
+  upscope-env/ai/.env
 )
 while IFS= read -r memory_dir; do
   paths+=("$memory_dir")

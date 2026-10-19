@@ -10,7 +10,7 @@ migrate-export            # → ~/Desktop/migrate-<host>-<date>.tar.gz.enc
 ```
 
 Packs: `~/.ssh`, `~/.zsh_history`, `~/.config/gh` (GitHub auth),
-`~/.config/upscope` (droplet keys), `~/upscope-env/dev.toml`, `~/.claude-mem`
+`~/.config/upscope` (droplet keys), `~/upscope-env/dev.toml`, the projects' git-ignored `.env` files, `~/.claude-mem`
 (minus logs), Claude memory dirs, `~/.claude/settings.local.json`. AirDrop the
 file to the new Mac. Delete both copies once the new machine works.
 
