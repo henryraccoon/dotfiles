@@ -134,7 +134,9 @@ install_claude_code() {
   command -v claude &>/dev/null || { warn "claude not on PATH, skipping plugins"; return; }
 
   log "configuring Claude Code plugin marketplaces"
+  run claude plugin marketplace add anthropics/claude-plugins-official
   run claude plugin marketplace add thedotmack/claude-mem
+  run claude plugin marketplace update
   jq -r '.enabledPlugins | to_entries[] | select(.value) | .key' "$DOTFILES/claude/settings.json" |
     while read -r plugin; do
       run claude plugin install "$plugin" || warn "could not install $plugin"
