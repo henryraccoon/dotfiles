@@ -1,0 +1,19 @@
+[
+  {
+    "key": "alt+cmd+/",
+    "command": "editor.action.showHover",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "alt+cmd+.",
+    "command": "editor.action.accessibleView"
+  },
+  {
+    "key": "alt+cmd+f",
+    "command": "explorer.newFile"
+  },
+  {
+    "key": "shift+alt+cmd+f",
+    "command": "explorer.newFolder"
+  }
+]
