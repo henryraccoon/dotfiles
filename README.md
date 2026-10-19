@@ -1,27 +1,26 @@
 # @henryraccoon's dotfiles
 
-My personal dotfiles.
-
 ## What's included
 
-- **homebrew/** — Brewfile (all packages and apps)
-- **zsh/** — shell config (zshrc, zshenv, zprofile, zlogin)
+- **install.sh** — one-shot, idempotent bootstrap (brew bundle, symlinks, node, tmux, Claude Code, iTerm2)
+- **homebrew/** — Brewfile (CLI tools, GUI apps, font, VS Code extensions)
+- **zsh/** — shell config (zshrc, zshenv, zprofile)
 - **git/** — git config, aliases, global ignore
-- **tmux/** — tmux config and plugins
+- **tmux/** — tmux config (plugins via tpm)
 - **hammerspoon/** — window management and app shortcuts
-- **scripts/** — tmux-sessionizer, tmux-cht
-- **claude/** — Claude Code config (agents, skills, docs)
-- **starship.toml** — terminal prompt theme
+- **vscode/** — settings + keybindings
+- **iterm2/** — iTerm2 preferences (loaded from this folder)
+- **claude/** — Claude Code config (settings, CLAUDE.md, agents, skills, docs, commands)
+- **scripts/** — on `$PATH`: `tmux-sessionizer`, `tmux-cht`, `migrate-export`, `migrate-import`
+- **starship.toml** — prompt theme
 
-## Setup
-
-Full clean-machine walkthrough: [docs/SETUP.md](docs/SETUP.md).
-Upscope dev environment: [docs/UPSCOPE_ENV.md](docs/UPSCOPE_ENV.md).
+## New machine
 
 ```bash
+xcode-select --install
 git clone https://github.com/henryraccoon/dotfiles.git ~/.dotfiles
-cd ~/.dotfiles
-brew bundle --file=homebrew/Brewfile
+~/.dotfiles/install.sh
 ```
 
-Then symlink configs to their expected locations (see docs/SETUP.md).
+Full runbook incl. secrets transfer: [docs/SETUP.md](docs/SETUP.md).
+Upscope dev environment: [docs/UPSCOPE_ENV.md](docs/UPSCOPE_ENV.md).

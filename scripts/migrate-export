@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Pack secrets + local state that live outside the dotfiles repo into one
+# passphrase-encrypted archive, to move to a new machine with migrate-import.
+# Usage: migrate-export [output-file]
+set -euo pipefail
+
+out="${1:-$HOME/Desktop/migrate-$(hostname -s)-$(date +%Y%m%d).tar.gz.enc}"
+
+paths=(
+  .ssh
+  .zsh_history
+  .config/gh
+  .config/upscope
+  .claude-mem
+  .claude/settings.local.json
+  upscope-env/dev.toml
+)
+while IFS= read -r memory_dir; do
+  paths+=("$memory_dir")
+done < <(cd "$HOME" && find .claude/projects -mindepth 2 -maxdepth 2 -type d -name memory 2>/dev/null)
+
+existing=()
+for p in "${paths[@]}"; do
+  if [[ -e "$HOME/$p" ]]; then
+    existing+=("$p")
+  else
+    echo "skip (missing): ~/$p" >&2
+  fi
+done
+
+echo "Including:"
+printf '  ~/%s\n' "${existing[@]}"
+echo
+
+umask 077
+tar -C "$HOME" -czf - \
+  --exclude='.ssh/upscope-cm' \
+  --exclude='.claude-mem/logs' \
+  --exclude='.claude-mem/worker.pid' \
+  "${existing[@]}" |
+  openssl enc -aes-256-cbc -pbkdf2 -iter 600000 -salt -out "$out"
+
+echo
+echo "Wrote $out ($(du -h "$out" | cut -f1))"
+shasum -a 256 "$out"
+echo "AirDrop it to the new Mac, then run: migrate-import <file>"

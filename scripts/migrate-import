@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Restore an archive created by migrate-export into $HOME.
+# Usage: migrate-import <archive.tar.gz.enc>
+set -euo pipefail
+
+archive="${1:?usage: migrate-import <archive.tar.gz.enc>}"
+[[ -f "$archive" ]] || { echo "not a file: $archive" >&2; exit 1; }
+
+umask 077
+tmp="$(mktemp)"
+trap 'rm -f "$tmp"' EXIT
+
+openssl enc -d -aes-256-cbc -pbkdf2 -iter 600000 -in "$archive" -out "$tmp"
+
+echo "Archive contents:"
+tar -tzf "$tmp" | sed 's/^/  ~\//'
+echo
+echo "Existing files with the same paths under $HOME will be overwritten."
+read -r -p "Extract? [y/N] " answer
+[[ "$answer" == [yY] ]] || { echo "aborted"; exit 1; }
+
+tar -C "$HOME" -xzf "$tmp"
+
+chmod 700 "$HOME/.ssh"
+find "$HOME/.ssh" -type f -exec chmod 600 {} +
+find "$HOME/.ssh" -type f -name '*.pub' -exec chmod 644 {} +
+[[ -d "$HOME/.config/upscope" ]] && find "$HOME/.config/upscope" -type f -exec chmod 600 {} +
+[[ -f "$HOME/upscope-env/dev.toml" ]] && chmod 600 "$HOME/upscope-env/dev.toml"
+
+cat <<MSG
+
+Restored. Next:
+  gh auth status                      # should already be logged in
+  ssh -T git@github.com               # key works
+  upscope machine sync                # reclaims the droplet for this Mac (old Mac loses sync — expected)
+MSG
