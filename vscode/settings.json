@@ -1,5 +1,4 @@
 {
-  "workbench.colorTheme": "Monokai Dimmed",
   "window.autoDetectColorScheme": false,
   "editor.tabSize": 2,
   "editor.formatOnSave": true,
@@ -8,14 +7,14 @@
   "editor.accessibilitySupport": "off",
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
   },
   "files.autoSave": "onFocusChange",
   "diffEditor.ignoreTrimWhitespace": false,
   "eslint.codeActionsOnSave.rules": null,
   "eslint.timeBudget.onFixes": {
     "warn": 3000,
-    "error": 6000
+    "error": 6000,
   },
   "typescript.preferences.includePackageJsonAutoImports": "on",
   "typescript.updateImportsOnFileMove.enabled": "always",
@@ -25,7 +24,8 @@
   "vim.normalModeKeyBindingsNonRecursive": [
     {
       "before": ["g", "H"],
-      "commands": [{ "command": "editor.action.showDefinitionPreviewHover" }]
-    }
-  ]
+      "commands": [{ "command": "editor.action.showDefinitionPreviewHover" }],
+    },
+  ],
+  "workbench.colorTheme": "Solarized Dark",
 }

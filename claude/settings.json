@@ -51,6 +51,20 @@
     "superpowers@claude-plugins-official": true,
     "claude-mem@thedotmack": true
   },
+  "extraKnownMarketplaces": {
+    "thedotmack": {
+      "source": {
+        "source": "github",
+        "repo": "thedotmack/claude-mem"
+      }
+    },
+    "claude-plugins-official": {
+      "source": {
+        "source": "github",
+        "repo": "anthropics/claude-plugins-official"
+      }
+    }
+  },
   "alwaysThinkingEnabled": true,
   "skipWorkflowUsageWarning": true,
   "autoMode": {
@@ -90,5 +104,6 @@
       "**Org-specific CLIs**: `upscope` CLI (dev environment management: db migrate, uv test, etc. — 53× usage, 141× in shell history), `mutagen` (file sync, 7×), `ngrok` (tunnel, 3×), `gh` (GitHub CLI, primary method for GitHub interaction per CLAUDE.md)",
       "**Routine under this repo's ~/upscope-env/userview prefix**: `upscope` CLI invocations for db/test/console operations are routine here; bare yarn/docker/psql expecting local containers are not, per project docs"
     ]
-  }
+  },
+  "theme": "dark-daltonized"
 }
