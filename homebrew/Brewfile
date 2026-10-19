@@ -1,6 +1,7 @@
 # Taps
 tap "mhaeuser/mhaeuser"
 tap "mutagen-io/mutagen"
+tap "xwmx/taps"
 
 # CLI Tools
 brew "bat"
@@ -33,6 +34,7 @@ brew "zoxide"
 brew "zplug"
 brew "zsh-syntax-highlighting"
 brew "mutagen-io/mutagen/mutagen"
+brew "xwmx/taps/hosts"
 
 # GUI Apps
 cask "1password"
