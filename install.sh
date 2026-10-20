@@ -109,6 +109,10 @@ install_node() {
   [[ -s "$nvm_sh" ]] || { warn "nvm not installed yet, skipping node"; return; }
   export NVM_DIR="$HOME/.nvm"
   run mkdir -p "$NVM_DIR"
+  if [[ ! -f "$NVM_DIR/default-packages" ]]; then
+    log "yarn will be installed into every node version nvm installs"
+    (( DRY_RUN )) || echo yarn > "$NVM_DIR/default-packages"
+  fi
   # shellcheck disable=SC1090
   source "$nvm_sh"
   if ! nvm ls --no-colors lts/* &>/dev/null; then
@@ -116,6 +120,11 @@ install_node() {
     run nvm install --lts
     run nvm alias default 'lts/*'
   fi
+  for version in $(nvm ls --no-colors --no-alias 2>/dev/null | grep -o 'v[0-9.]*'); do
+    [[ -x "$NVM_DIR/versions/node/$version/bin/yarn" ]] && continue
+    log "installing yarn for node $version"
+    run nvm exec --silent "$version" npm install -g yarn
+  done
 }
 
 install_tmux_plugins() {

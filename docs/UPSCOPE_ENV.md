@@ -37,13 +37,14 @@ upscope machine sync     # claims the droplet for this Mac: rotates the sync tok
                          # rewrites ~/.ssh/config, severs the old Mac's sync
 upscope machine sync-hosts   # /etc/hosts entries (asks for sudo)
 upscope up               # idempotent; containers are probably already running
+upscope uv setup         # host-side yarn installs (needed by build/lint/types commands)
 ```
 
 The old Mac's mutagen will log sync errors until it runs `upscope machine
 sync` itself — expected.
 
 Fresh droplet instead: `upscope machine setup`, then `upscope machine sync-hosts`,
-`upscope deps`, `upscope up`.
+`upscope up`, `upscope uv setup`.
 
 `upscope docs` opens the full HTML documentation — source of truth when this
 file drifts. `upscope upgrade` updates the binary.
